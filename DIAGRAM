@@ -1,0 +1,96 @@
+import React, { PureComponent } from 'react';
+import logo from './logo.svg';
+import './App.css';
+import {round} from 'mathjs'; //npm install mathjs
+import {
+  BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid,
+} from 'recharts';
+
+
+
+
+
+function App() {
+
+  //gets object date
+  const date = new Date();
+  //array for each day where slot 0 is sunday
+  let daysCounter = [1,1,1,2,3,0,2];
+
+//om anvädaren har gjort ett pass, ett event startar
+ // if(event){
+  //switch-statement to upgrade the number in each slot for the day
+  switch(date.getDay()) {
+    case 0:
+      daysCounter[0]++;
+      break;
+    case 1:
+    daysCounter[1]++;
+      break;
+    case 2:
+    daysCounter[2]++;
+      break;
+    case 3:
+    daysCounter[3]++;
+      break;
+    case 4:
+    daysCounter[4]++;
+      break;
+    case 5:
+    daysCounter[5]++;
+      break;
+    case 6:
+    daysCounter[6]++;
+      break;
+  }
+
+  //save data
+
+//}
+
+  //check date, if sunday 23:59, rinse data
+  if(date.getHours() == 23 && date.getDay() == 0 && date.getMinutes() == 59){
+    daysCounter = [0,0,0,0,0,0,0];
+  }
+
+//staple diagram for each day
+const data = [
+  {
+     name: 'Mon', uv: daysCounter[1], pv: 24000, amt: 2400,
+  },
+  {
+    name: 'Tue', uv: daysCounter[2], pv: 1398, amt: 2210,
+  },
+  {
+    name: 'Wed', uv: daysCounter[3], pv: 9800, amt: 2290,
+  },
+  {
+    name: 'Thur', uv: daysCounter[4], pv: 3908, amt: 2000,
+  },
+  {
+    name: 'Fri', uv: daysCounter[5], pv: 4800, amt: 2181,
+  },
+  {
+    name: 'Sat', uv: daysCounter[6], pv: 3800, amt: 2500,
+  },
+  {
+    name: 'Sun', uv: daysCounter[0], pv: 4300, amt: 2100,
+  },
+];
+
+         return (
+    <div>
+    <BarChart width={500} height={300} data={data} 
+      margin={{
+       top: 100, right: 10, left: 50, bottom: 5,
+        }}>
+        <XAxis dataKey="name" /> 
+        <YAxis dataKey={ (Math.round(data.uv)) } width={ 70 } allowDecimals={false} /> // Visar y axeln värden
+        <Bar dataKey="uv" fill="#8884d8" />
+      </BarChart>
+    </div>
+  );
+}
+
+
+export default App;
